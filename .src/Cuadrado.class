@@ -1,0 +1,101 @@
+' Gambas class file
+
+' Constructor
+Public Sub _new(nuevaX As Short, nuevaY As Short, nuevoLado As Short, nuevoColor As Integer)
+  
+  posX = nuevaX
+  posY = nuevaY
+  lado = nuevoLado
+  colorCuadrado = nuevoColor
+  
+End
+
+'ESTADO - ATRIBUTOS
+Private velocidad As Short = 1
+' POSICIÓN
+Private posX As Short
+Private posY As Short
+
+' LADO
+Private lado As Short
+
+' COLOR
+Private colorCuadrado As Integer
+
+'GETTERS
+Public Sub getX() As Short
+  
+  Return posX
+  
+End
+
+Public Sub getY() As Short
+  
+  Return posY
+  
+End
+
+Public Sub getLado() As Short
+  
+  Return lado
+  
+End
+
+
+Public Sub setX(x As Short)
+  
+  posX = x
+  
+End
+
+Public Sub setY(y As Short)
+  
+  posY = y
+  
+End
+
+Public Sub getColor() As Integer
+  
+  Return colorCuadrado
+  
+End
+
+' COMPORTAMIENTO - METODOS
+
+' Dibujar
+Public Sub Dibujar(canvas As DrawingArea)
+  
+  Paint.Begin(canvas)
+  Paint.FillRect(posX, posY, lado, lado, colorCuadrado)
+  Paint.End()
+  
+End
+
+'Colisiona con otro cuadrado
+Public Sub Colisiona(cuadrado As Cuadrado) As Boolean
+  
+  Return posX == cuadrado.getX() And posY == cuadrado.getY()
+  
+  
+End
+
+
+' Mover
+Public Sub Mover(letra As String)
+  
+  Select letra
+    Case "W"
+      ' MOVER ARRIBA
+      posY -= lado
+    Case "A"
+      ' MOVER IZQUIERDA
+      posX -= lado
+    Case "S"
+      ' MOVER ABAJO
+      posY += lado
+    Case "D"
+      ' MOVER DERECHA
+      posX += lado
+  End Select
+  
+End 

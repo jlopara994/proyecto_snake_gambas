@@ -1,0 +1,90 @@
+' Gambas class file
+
+Public manzana As Cuadrado
+Public serpiente As Serpiente
+Public manzanaSize As Short = 20
+Public scoreText As Short = 0
+
+Public Sub RandomPos(dimension As String) As Integer
+  
+  Return Rand(dimension / 20) * 20 - manzanaSize
+  
+End
+
+
+Public Sub StartGame()
+  
+  manzana = New Cuadrado(RandomPos(DrawingArea1.W), RandomPos(DrawingArea1.H), manzanaSize, Color.RGB(255, 0, 0))
+  serpiente = New Serpiente(0, 0, Color.RGB(0, 111, 0))
+  
+End
+
+Public Sub Form_Open()
+
+  StartGame()
+
+End
+
+
+Public Sub Crono_Timer()
+
+  If serpiente.getCabeza().getX() == manzana.getX() And serpiente.getCabeza().getY() == manzana.getY() Then 
+    
+    While serpiente.estaColisionando(manzana)
+      
+      manzana.setX(Rand(1, 800 / 20) * 20 - manzana.getLado())
+      manzana.setY(Rand(1, 600 / 20) * 20 - manzana.getLado())
+      
+    Wend
+    serpiente.Crecer()
+    scoreText += 1
+    Score.Text = scoreText
+    
+  Endif
+  
+  
+  If serpiente.EstasMuerto(DrawingArea1) Then
+    StartGame()
+    Crono.Stop()
+    scoreText = 0
+    Score.Text = 0
+    START.Visible = True
+  Endif
+  
+  serpiente.Mover()
+  
+  DrawingArea1.Refresh()
+  
+End
+
+
+
+Public Sub DrawingArea1_Draw()
+
+  manzana.Dibujar(DrawingArea1)  
+  serpiente.Dibujar(DrawingArea1)
+
+End
+
+Public Sub Form_KeyPress()
+  
+  Select Key.Code
+    Case Key["W"]
+      serpiente.cambiarDir("W")
+    Case Key["A"]
+      serpiente.cambiarDir("A")
+   Case Key["S"]
+      serpiente.cambiarDir("S")
+    Case Key["D"]
+      serpiente.cambiarDir("D") 
+  End Select
+  
+End
+
+
+Public Sub START_Click()
+
+  Crono.Start()
+  START.Visible = False
+
+End

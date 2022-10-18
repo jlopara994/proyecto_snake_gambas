@@ -1,0 +1,113 @@
+' Gambas class file
+
+Private cuerpo As New Cuadrado[]
+Private direccion As String = "D"
+Private Const TAMANO As Short = 20
+
+Public Sub _new(posX As Short, posY As Short, color As Integer)
+  
+  Dim cabeza As Cuadrado 
+  cabeza = New Cuadrado(posX, posY, TAMANO, color)
+  cuerpo.Add(cabeza)
+  
+End
+
+Public Sub Dibujar(drawingarea As DrawingArea)
+  
+  For Each parte As Cuadrado In cuerpo
+    
+    parte.Dibujar(drawingarea)
+    
+  Next
+  
+End
+
+Public Sub Crecer()
+  
+  ' Crear un nuevo cuadrado asignandole
+  Dim cabezaAntigua As Cuadrado = cuerpo[0]
+  Dim nuevaCabeza As Cuadrado = New Cuadrado(cabezaAntigua.getX(), cabezaAntigua.getY(), TAMANO, cabezaAntigua.getColor())
+  ' Añadir al cuerpo
+  cuerpo.Add(nuevaCabeza, 0)
+  
+  nuevaCabeza.Mover(direccion)
+    
+End 
+
+Public Sub Mover()
+  
+  'Mover el ultimo cuadrado al principio y moverlo hacia la dirección que coorresponda
+  Me.Crecer()
+  cuerpo.Pop()
+  
+End
+
+Public Sub CambiarDir(nuevaDireccion As String)
+
+  Select nuevaDireccion
+    Case "W"
+      If (Not (direccion == "S")) Then
+        direccion = nuevaDireccion
+      Endif
+    Case "A"
+      If (Not (direccion == "D")) Then
+        direccion = nuevaDireccion
+      Endif
+    Case "S"
+      If (Not (direccion == "W")) Then 
+        direccion = nuevaDireccion
+      Endif  
+    Case "D"
+      If (Not (direccion == "A")) Then
+        direccion = nuevaDireccion
+      Endif
+  End Select
+  
+End
+
+Public Sub EstasMuerto(canvas As DrawingArea) As Boolean
+  
+  
+  If (cuerpo[0].getX() > canvas.W Or cuerpo[0].getX() < 0 Or cuerpo[0].getY() > canvas.H Or cuerpo[0].getY() < 0) Then 
+    'Salirse por los lados
+    Return True
+  Else 
+      For i As Short = 4 To cuerpo.Length - 1
+        If (cuerpo[0].Colisiona(cuerpo[i])) Then
+          Return True
+        Endif
+      Next
+  Endif
+  
+  Return False
+  
+End
+
+Public Sub getCabeza() As Cuadrado  
+  
+  Return cuerpo[0]
+  
+End
+
+Public Sub getDireccion() As String
+  
+  Return direccion
+  
+End
+
+
+Public Sub estaColisionando(cuadrado As Cuadrado) As Boolean
+  
+  For i As Integer = 0 To cuerpo.Length - 1
+    
+    If cuerpo[i].Colisiona(cuadrado) Then
+      Return True
+    Endif
+    
+  Next
+  
+  Return False
+  
+End
+
+

@@ -1,0 +1,24 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,114.2857,85.7143)
+  Background = Color.Orange
+  { Crono #Timer
+    #MoveScaled(67,67)
+    Delay = 100
+  }
+  { DrawingArea1 DrawingArea
+    MoveScaled(0,0,114.2857,85.7143)
+    Background = Color.Green
+    { START Button
+      MoveScaled(52,38,16,5)
+      Text = ("START")
+    }
+    { Score LCDLabel
+      MoveScaled(47,1,24,4)
+      Foreground = Color.DarkViolet
+      Text = ("0")
+      Alignment = Align.Center
+    }
+  }
+}
