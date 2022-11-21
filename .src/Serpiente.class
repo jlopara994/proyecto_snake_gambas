@@ -2,12 +2,12 @@
 
 Private cuerpo As New Cuadrado[]
 Private direccion As String = "D"
-Private Const TAMANO As Short = 20
+Private Const SIZE As Short = 20
 
 Public Sub _new(posX As Short, posY As Short, color As Integer)
   
   Dim cabeza As Cuadrado 
-  cabeza = New Cuadrado(posX, posY, TAMANO, color)
+  cabeza = New Cuadrado(posX, posY, SIZE, color)
   cuerpo.Add(cabeza)
   
 End
@@ -26,7 +26,7 @@ Public Sub Crecer()
   
   ' Crear un nuevo cuadrado asignandole
   Dim cabezaAntigua As Cuadrado = cuerpo[0]
-  Dim nuevaCabeza As Cuadrado = New Cuadrado(cabezaAntigua.getX(), cabezaAntigua.getY(), TAMANO, cabezaAntigua.getColor())
+  Dim nuevaCabeza As Cuadrado = New Cuadrado(cabezaAntigua.getX(), cabezaAntigua.getY(), SIZE, cabezaAntigua.getColor())
   ' Añadir al cuerpo
   cuerpo.Add(nuevaCabeza, 0)
   
@@ -67,8 +67,10 @@ End
 
 Public Sub EstasMuerto(canvas As DrawingArea) As Boolean
   
+  Dim x As Short = cuerpo[0].getX()
+  Dim y As Short = cuerpo[0].getY()
   
-  If (cuerpo[0].getX() > canvas.W Or cuerpo[0].getX() < 0 Or cuerpo[0].getY() > canvas.H Or cuerpo[0].getY() < 0) Then 
+  If (x > canvas.W Or x < 0 Or y > canvas.H Or y < 0) Then 
     'Salirse por los lados
     Return True
   Else 
